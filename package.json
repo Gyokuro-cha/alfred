@@ -1,0 +1,21 @@
+{
+  "name": "alfred",
+  "version": "1.0.0",
+  "description": "auto bot that tracts retainers daily progress",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NoFap",
+    "NoFapRetention",
+    "Daily",
+    "Trackers",
+    "Bot"
+  ],
+  "author": "Nat",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.3.1"
+  }
+}
