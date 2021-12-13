@@ -23,16 +23,16 @@ class Client extends Discord.Client {
 	}
 
 	start(token) {
-		// fs.readdirSync("./src/Commands")
-		// 	.filter(file => file.endsWith(".js"))
-		// 	.forEach(file => {
-		// 		/**
-		// 		 * @type {Command}
-		// 		 */
-		// 		const command = require(`../Commands/${file}`);
-		// 		console.log(`Command ${command.name} loaded`);
-		// 		this.commands.set(command.name, command);
-		// 	});
+		fs.readdirSync("./Commands")
+			.filter(file => file.endsWith(".js"))
+			.forEach(file => {
+				/**
+				 * @type {Command}
+				 */
+				const command = require(`../Commands/${file}`);
+				console.log(`Command ${command.name} loaded`);
+				this.commands.set(command.name, command);
+			});
 
 		fs.readdirSync("./Events")
 			.filter(file => file.endsWith(".js"))
@@ -42,7 +42,7 @@ class Client extends Discord.Client {
 				 */
 				const event = require(`../Events/${file}`);
 				console.log(`Event ${event.event} loaded`);
-				this.on(event.event, event.run.bind(this));
+				this.on(event.event, event.run.bind(null, this));
 			});
 
 		this.login(token);

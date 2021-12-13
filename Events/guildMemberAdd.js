@@ -4,7 +4,7 @@ const Event = require("../Structures/Event.js");
 
 const Discord = require("discord.js");
 
-module.exports = new Event("guildMemberAdd", member => {
+module.exports = new Event("guildMemberAdd", (client, member) => {
 	console.log('member added');
 
     const channel = member.guild.channels.cache.find(
