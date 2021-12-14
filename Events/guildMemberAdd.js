@@ -4,7 +4,11 @@ const Event = require("../Structures/Event.js");
 
 const Discord = require("discord.js");
 
-module.exports = new Event("guildMemberAdd", (client, member) => {
+const ProfileModel = require("../Models/profileSchema.js");
+
+
+//Will need users to manually join the streak channel in order for their data to be initiatied into the db
+module.exports = new Event("guildMemberAdd", async (client, member) => {
 	console.log('member added');
 
     const channel = member.guild.channels.cache.find(
@@ -12,6 +16,13 @@ module.exports = new Event("guildMemberAdd", (client, member) => {
 	);
 
 	if (!channel) return;
+
+	let profile = await ProfileModel.create({
+		userID: member.id,
+		streak: 0
+	});
+
+	profile.save();
     
 
     channel.send(`welcome <@${member.user.id}> to NoFap and Semen Retention Server`);

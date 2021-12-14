@@ -4,7 +4,8 @@
   "description": "auto bot that tracts retainers daily progress",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./main.js"
   },
   "keywords": [
     "NoFap",
@@ -16,6 +17,8 @@
   "author": "Nat",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^13.3.1"
+    "discord.js": "^13.3.1",
+    "mongoose": "^6.1.1",
+    "nodemon": "^2.0.15"
   }
 }
