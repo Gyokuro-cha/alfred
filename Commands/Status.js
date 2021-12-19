@@ -48,6 +48,7 @@ module.exports = new Command({
 
             const embed = new Discord.MessageEmbed();
             const streak = _profile[0].streak;
+            const title = _profile[0].title;
 
             embed
                 .setTitle("Current Status")
@@ -63,6 +64,11 @@ module.exports = new Command({
                     {
                         name: "Current Streak",
                         value: streak.toString(),
+                        inline: true
+                    },
+                    {
+                        name: "Title",
+                        value: title.toString(),
                         inline: true
                     }
                 );
