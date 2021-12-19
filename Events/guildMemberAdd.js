@@ -14,7 +14,6 @@ const A_DAY_IN_HRS = 24;
 
 //Will need users to manually join the streak channel in order for their data to be initiatied into the db
 module.exports = new Event("guildMemberAdd", async (client, member) => {
-	console.log('member added');
 
     const channel = member.guild.channels.cache.find(
 		c => c.name == "general"
@@ -25,38 +24,38 @@ module.exports = new Event("guildMemberAdd", async (client, member) => {
 	// Check if user is in db if not create
 	// If true check if they checkin the last 24 hrs
 
-	await ProfileModel.
-        find({
-            userID: client.user.id
-        })
-        .exec(async function (_err, _profile) {
-            if (_err){
-                return res.status(422).json({
-                    errors: {
-                        name: _err.name,
-                        message: _err.message
-                    },
-                });
-            }
+	// await ProfileModel.
+    //     find({
+    //         userID: client.user.id
+    //     })
+    //     .exec(async function (_err, _profile) {
+    //         if (_err){
+    //             return res.status(422).json({
+    //                 errors: {
+    //                     name: _err.name,
+    //                     message: _err.message
+    //                 },
+    //             });
+    //         }
 
-			if (_profile.length === 0) {
-				let profile = await ProfileModel.create({
-					userID: client.user.id,
-					title: 'Journey Man',
-					streak: 0
-				});
+	// 		if (_profile.length === 0) {
+	// 			let profile = await ProfileModel.create({
+	// 				userID: client.user.id,
+	// 				title: 'Journey Man',
+	// 				streak: 0
+	// 			});
 			
-				profile.save();
-			} else {
-				let lastCheckInDate = Moment(_profile[0].lastCheckIn);
-            	let hours = Moment().diff(Moment(lastCheckInDate), 'hours');
+	// 			profile.save();
+	// 		} else {
+	// 			let lastCheckInDate = Moment(_profile[0].lastCheckIn);
+    //         	let hours = Moment().diff(Moment(lastCheckInDate), 'hours');
 
 
 				
-			} 
+	// 		} 
 
-			console.log('profile ' + _profile);
-		});
+	// 		console.log('profile ' + _profile);
+	// 	});
 
 	
     

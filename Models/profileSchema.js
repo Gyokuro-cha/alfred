@@ -5,6 +5,8 @@ const profileSchema = mongoose.Schema({
     userID: {type: String, 
             require: true, 
             unique: true},
+    userName: {type: String, 
+                require: true},        
     streak: {type: Number, 
             require: false},
     title: {type: String, 

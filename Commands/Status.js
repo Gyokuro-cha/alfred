@@ -6,7 +6,10 @@ const Discord = require("discord.js");
 
 const ProfileModel = require("../Models/profileSchema.js");
 
-const GUILD_NAME = "NoFapGuru's Bot Testing Server";
+const GUILD_NAME_ONE = "NoFap and SemenRetention";
+
+const GUILD_NAME_TWO = "NoFapGuru's Bot Testing Server";
+
 
 const CHANNEL_NAME = "daily-streak";
 
@@ -22,59 +25,63 @@ module.exports = new Command({
             message.channel.send(`This command is not allowed in ${message.channel.name}`);
             return;
         }
-
+    
 
         await ProfileModel.
         find({
-            userId: client.user.id
+            userID: message.author.id
         })
-        .exec(function (_err, _profile) {
+        .exec( async function (_err, _profile) {
             if (_err){
-                return res.status(422).json({
-                    errors: {
-                        name: _err.name,
-                        message: _err.message
-                    },
-                });
+                console.error('error' + _err);
             }
 
-            const guild = client.guilds.cache.find(
-                g => g.name == GUILD_NAME
-            );
-
-            const channel = guild.channels.cache.find(
-                c => c.name == CHANNEL_NAME
-            );
-
-            const embed = new Discord.MessageEmbed();
-            const streak = _profile[0].streak;
-            const title = _profile[0].title;
-
-            embed
-                .setTitle("Current Status")
-                .setColor("GREEN")
-                .setAuthor(client.user.tag)
-                .setThumbnail(client.user.avatarURL({ dynamic: true }))
-                .addFields(
-                    {
-                        name: "Account Creation Day",
-                        value: client.user.createdAt.toUTCString().toString(),
-                        inline: true
-                    },
-                    {
-                        name: "Current Streak",
-                        value: streak.toString(),
-                        inline: true
-                    },
-                    {
-                        name: "Title",
-                        value: title.toString(),
-                        inline: true
-                    }
+            if (_profile.length === 0) {
+				
+                let msg = await message.channel.send(`Your profile can't be found, try !initiate to initialize`);
+    
+            } else {
+                const guild = client.guilds.cache.find(
+                    g => g.name == GUILD_NAME_ONE || GUILD_NAME_TWO
                 );
+    
+                const channel = guild.channels.cache.find(
+                    c => c.name == CHANNEL_NAME
+                );
+    
+                const embed = new Discord.MessageEmbed();
+                const streak = _profile[0].streak;
+                const title = _profile[0].title;
+    
+                embed
+                    .setTitle("Current Status")
+                    .setColor("GREEN")
+                    .setAuthor(message.author.username)
+                    .setThumbnail(message.author.avatarURL({ dynamic: true }))
+                    .addFields(
+                        {
+                            name: "Account Creation Day",
+                            value: message.author.createdAt.toUTCString().toString(),
+                            inline: true
+                        },
+                        {
+                            name: "Current Streak",
+                            value: streak.toString(),
+                            inline: true
+                        },
+                        {
+                            name: "Title",
+                            value: title.toString(),
+                            inline: true
+                        }
+                    );
 
-            channel.send({ embeds: [embed] });        
 
+                    await message.channel.send({ embeds: [embed] });     
+                    
+            }
+
+            
         });
 
 
