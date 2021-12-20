@@ -40,7 +40,7 @@ module.exports = new Command({
                 let hours = Moment().diff(Moment(lastCheckInDate), 'hours');
 
                 if (hours < A_DAY_IN_HRS) {
-                    message.channel.send("You already checked in for today.");
+                    message.channel.send("You already checked in for today." + " You need to wait " + hours + " hours before next check in");
                 } else {
                     message.channel.send("Are you here to do a daily check in? (type yes or no)");
                     let collector = new Discord.MessageCollector(message.channel, () => true);
@@ -58,7 +58,9 @@ module.exports = new Command({
                             ProfileModel.updateOne(
                                 {userID: message.author.id},
                                 {streak: (_profile[0].streak + 1),
-                                    title: _profile[0].title},
+                                    title: _profile[0].title,
+                                    lastCheckIn: Date.now()    
+                                },
                                 {upsert: false},
                                 function (_err, _profile) {
                                     if (_err) {
@@ -73,7 +75,9 @@ module.exports = new Command({
                             ProfileModel.updateOne(
                                 {userID: message.author.id},
                                 {streak: 0,
-                                    title: _profile[0].title},
+                                    title: _profile[0].title,
+                                    lastCheckIn: Date.now()
+                                },
                                 {upsert: false},
                                 function (_err, _profile) {
                                     if (_err) {
